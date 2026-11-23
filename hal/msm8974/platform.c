@@ -1803,6 +1803,8 @@ static void update_codec_type_and_interface(struct platform_data * my_data,
                    sizeof("lito-qrd-snd-card")) ||
          !strncmp(snd_card_name, "trinket-idp-snd-card",
                    sizeof("trinket-idp-snd-card")) ||
+         !strncmp(snd_card_name, "trinket-moto-",
+                   strlen("trinket-moto-")) ||
          !strncmp(snd_card_name, "sdm439-sku1-snd-card",
                    sizeof("sdm439-sku1-snd-card")) ||
          !strncmp(snd_card_name, "sdm439-snd-card-mtp",
@@ -3412,8 +3414,11 @@ void *platform_init(struct audio_device *adev)
         platform_info_init(get_xml_file_path(PLATFORM_INFO_XML_PATH_TDM_NAME),
             my_data, PLATFORM);
     } else if (my_data->is_internal_codec) {
-        platform_info_init(get_xml_file_path(PLATFORM_INFO_XML_PATH_INTCODEC_NAME),
-            my_data, PLATFORM);
+        if (platform_info_init(get_xml_file_path(PLATFORM_INFO_XML_PATH_INTCODEC_NAME),
+                my_data, PLATFORM) < 0) {
+            audio_extn_utils_get_platform_info(snd_card_name, platform_info_file);
+            platform_info_init(platform_info_file, my_data, PLATFORM);
+        }
     }
     else {
         // Try to load pixel or default

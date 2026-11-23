@@ -792,6 +792,20 @@ static void update_hardware_info_bear(struct hardware_info *hw_info, const char 
     } else if (!strncmp(snd_card_name, "trinket-tavil-snd-card",
                  sizeof("trinket-tavil-snd-card"))) {
         strlcpy(hw_info->name, "trinket", sizeof(hw_info->name));
+    } else if (!strncmp(snd_card_name, "trinket-moto-rav-card",
+                 sizeof("trinket-moto-rav-card")) ||
+               !strncmp(snd_card_name, "trinket-moto-doha-card",
+                 sizeof("trinket-moto-doha-card"))) {
+        hw_info->is_stereo_spkr = false;
+        strlcpy(hw_info->name, "trinket", sizeof(hw_info->name));
+    } else if (!strncmp(snd_card_name, "trinket-moto-sofia-card",
+                 sizeof("trinket-moto-sofia-card")) ||
+               !strncmp(snd_card_name, "trinket-moto-sofiap-card",
+                 sizeof("trinket-moto-sofiap-card")) ||
+               !strncmp(snd_card_name, "trinket-moto-sofiar-card",
+                 sizeof("trinket-moto-sofiar-card"))) {
+        hw_info->is_stereo_spkr = true;
+        strlcpy(hw_info->name, "trinket", sizeof(hw_info->name));
     } else if (!strncmp(snd_card_name, "sa6155-adp-star-snd-card",
                   sizeof("sa6155-adp-star-snd-card"))) {
         strlcpy(hw_info->type, "adp", sizeof(hw_info->type));
